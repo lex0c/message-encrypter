@@ -10,6 +10,7 @@
 
 require_once ('ASCII.php');
 
+
 class SMCrypter extends ASCII
 {
     /**
@@ -25,8 +26,11 @@ class SMCrypter extends ASCII
      */
     private $key = null;
 
-    
-    private $breakText = '!space!';
+    /**
+     * For replace space on text
+     * @var string
+     */
+    private $breakText = '{#}';
 
     /**
      * Default construct
@@ -84,7 +88,7 @@ class SMCrypter extends ASCII
     public function encode($key, $text)
     {
         $text = (string) trim(htmlentities($text));
-        return $this->inverse(
+        return $this->translator(
             trim(htmlentities(strip_tags($this->keyValidator($key)))), 
             str_split(str_replace(' ', $this->breakText, $text))
         );
@@ -132,8 +136,13 @@ class SMCrypter extends ASCII
         return ((($value/$key)/$key)*$key);
     }
 
-
-    private function inverse($key, array $characters)
+    /**
+     * Translate the Text to Numbers
+     * @param (int) $key for encryption
+     * @param (array) $characters 
+     * @return (array) translated values
+     */
+    private function translator($key, array $characters)
     {
         $charactersConverted = [];
         for($i = 0; $i <= count($characters); $i++):
@@ -147,6 +156,12 @@ class SMCrypter extends ASCII
         return implode(' ', array_filter($charactersConverted));
     }
 
+    /**
+     * Translate the Numbers to Text
+     * @param (int) $key for decryption
+     * @param (array) $characters 
+     * @return (array) translated values
+     */
     private function reverse($key, array $charactersConverted)
     {
         $characters = [];

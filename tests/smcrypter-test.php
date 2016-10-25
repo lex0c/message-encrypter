@@ -1,23 +1,27 @@
 <?php
 
 include "../src/SMCrypter.php";
-$smCrypt = new SMCrypter();
+$smCrypt1 = new SMCrypter();
+$smCrypt2 = new SMCrypter();
 
-//$originalValue = 65; //A
-//echo 'Original Value: '.$originalValue;
+$originalValue = "Meu EMAIL é 'leonardo_carvalho@outlook.com' and (10+5/2*7=0999) because yes. çÇ";
+echo 'Original Text: '.$originalValue;
 
 echo "<br>";
+echo "<br>";
 
-$key = $smCrypt->keyGenerator();
+$key = $smCrypt1->keyGenerator();
 //$key = 3000000;
 //$key = 'VE16Z2pNPT1RTzVn';
-//echo 'Generated Key: '.$key;
+echo 'Generated Key: '.$key;
 
 echo "<br>";
-
-$en = $smCrypt->encode($key, "HELLO world $%!@# DEV full ! space ! ($%&*([{1354647}])) ");
-echo 'Encrypted Value: '.$en;
-
 echo "<br>";
 
-echo 'Decrypted Value: '.$smCrypt->decode($key, $en);
+$en = $smCrypt1->encode($key, $originalValue);
+echo 'Encrypted Text: '.$en;
+
+echo "<br>";
+echo "<br>";
+
+echo 'Decrypted Text: '.$smCrypt2->decode($key, $en);
